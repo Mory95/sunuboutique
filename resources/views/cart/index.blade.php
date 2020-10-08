@@ -120,7 +120,7 @@
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-outline-danger">
-                          <i class="fa fa-trash-o fa-lg" style="color: red; ">Remove</i>
+                          <i class="fa fa-trash-o fa-lg" style="color: red; "></i>
                         </button>
 
                       </form>
@@ -164,11 +164,11 @@
               </div>
             </div>
           </div>
-            @else
-            <div class="aler alert-warning text-center p-3">
-              <h1>Votre panier est vide.</h1>
-            </div>
-            @endif
+          @else
+          <div class="aler alert-warning text-center p-3">
+            <h1>Votre panier est vide.</h1>
+          </div>
+          @endif
         </div>
       </div>
     </div>
