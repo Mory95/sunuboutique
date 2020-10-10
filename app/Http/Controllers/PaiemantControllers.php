@@ -40,6 +40,29 @@ class PaiemantControllers extends Controller
 
     }
 
+    public function indexInvite(Request $request)
+    {
+        if(Cart::count() <=0 )
+        {
+            messageflash("Désolé votre panier est vide.", "warning");
+            return back();
+        }
+
+        $tax = config('cart.tax') / 100;
+        $remise = request()->session()->get('coupon')['remise'] ?? 0;
+        $newSubTotal =  (Cart::subtotal() - $remise);
+        $newTax = $newSubTotal * $tax;
+        $newTotal = ($newSubTotal + $newTax);
+        if ($request->payment_method == 'Paypal') {
+            return redirect()->route('make.payment');
+        } else {
+            return view('paiement.paiement_invite')->with([
+                'newTotal' => $newTotal,
+            ]);
+        }
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -81,6 +104,7 @@ class PaiemantControllers extends Controller
 
 
         foreach (Cart::content() as $prod){
+            $produits['produit_'.$i][] = $prod->model->image;
             $produits['produit_'.$i][] = $prod->model->libelle;
             $produits['produit_'.$i][] = $prod->model->prix;
             $produits['produit_'.$i][] = $prod->qty;
@@ -92,7 +116,13 @@ class PaiemantControllers extends Controller
         $commande->date_commande = (new DateTime())
         ->format('Y-m-d H-i-s');
         ;
-        $commande->id_user = Auth::user()->id;
+        if (Auth::user()) {
+            $commande->id_user = Auth::user()->id;
+            // dd(!Auth::user()->id);
+        }else{
+            $commande->email_inviter = $request->email;
+            // dd($request->email);
+        }
         $commande->save();
         $this->updateStock();
         Cart::destroy();

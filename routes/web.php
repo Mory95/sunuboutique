@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth'], function(){
 });
 // paiement entant qu'invité
 Route::get('/invite', ['App\Http\Controllers\PaiemantControllers', 'index'])->name('payment.invite');
+Route::get('/page_inviter', ['App\Http\Controllers\PaiemantControllers', 'indexInvite'])->name('paiement');
+Route::post('/paiement_invite', ['App\Http\Controllers\PaiemantControllers', 'store'])->name('storepaiement.invite');
 
 
 //admin route

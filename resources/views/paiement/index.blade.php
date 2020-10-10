@@ -100,9 +100,9 @@
             <label for="fname"><i class="fa fa-user"></i> Full Name</label>
             <input type="text" id="fname" name="firstname" placeholder="Mory SARR">
             <label for="email"><i class="fa fa-envelope"></i> Email</label>
-            <input type="text" id="email" name="email" placeholder="mory@example.com">
+            <input type="text" id="email" name="email" value="{{ old('email', Auth::user()->email) }}" placeholder="mory@example.com">
             <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
-            <input type="text" id="adr" name="address" placeholder="Thiaroye/mer">
+            <input type="text" id="adr" name="address" placeholder="Thiaroye/mer" required="">
             <label for="city"><i class="fa fa-institution"></i> City</label>
             <input type="text" id="city" name="city" placeholder="New York">
           </div>

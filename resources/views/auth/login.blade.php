@@ -14,7 +14,7 @@
             <form action="{{ route('register') }}" method="GET">
                 <input type="submit" name="" value="Register"><br>
             </form>
-            <p>Cliquez <a href="{{ route('payment.invite') }}"> ici </a>pour effectuer vos achat entant que invité.</p>
+            <p>Cliquez <a href="{{ route('paiement') }}"> ici </a>pour effectuer vos achat entant que invité.</p>
         </div>
         <div class="col-md-9 register-right">
             <div class="tab-content" id="myTabContent">

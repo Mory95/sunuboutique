@@ -60,11 +60,14 @@
 						</div>
 						<div>
 							@foreach ( unserialize($commande->produits.$compteur) as $prod)
-							<ul>
-								<li>Libelle: {{ ($prod[$compteur]) }}</li>
-								<li>Prix: {{ ($prod[$compteur+1]) }}</li>
-								<li>Quantité: {{ ($prod[$compteur+2]) }}</li>
-							</ul><br>
+							<div class="flex">
+								<img src="{{ asset('storage/'.$prod[$compteur]) }}" alt="Image produit" class="imgs ml-2">
+								<ul class="ml-3">
+									<li>Libelle: {{ ($prod[$compteur+1]) }}</li>
+									<li>Prix: {{ ($prod[$compteur+2]) }}</li>
+									<li>Quantité: {{ ($prod[$compteur+3]) }}</li>
+								</ul><br>
+							</div>
 							@endforeach
 						</div>
 					</div><br>

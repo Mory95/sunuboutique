@@ -45,18 +45,19 @@ class CartControllers extends Controller
     public function store(Request $request)
     {
         $dup = Cart::search(function ($cartitem, $rowId) use ($request){
-            return $cartitem->id ==$request->id;
+            return $cartitem->id == $request->id;
         });
 
         if($dup->isNotEmpty()){
-            return redirect()->route('produit.index')->with('success', 'Produit déja ajouté.');
+            messageflash("Produit déja ajouté.", "warning");
+            return back();
         }
         $prod = Produit::findOrFail($request->id);
 
         Cart::add($prod->id, $prod->libelle, 1, $prod->prix)
         ->associate('App\Models\Produit');
-
-        return redirect()->route('produit.index')->with('success', 'Ajout effectuer');
+        messageflash("Produit ajouté avec succé.", "success");
+        return back();
     }
 
 
@@ -73,7 +74,6 @@ class CartControllers extends Controller
         });
 
         if($dup->isNotEmpty()){
-            // return redirect()->route('produit.index')->with('success', 'Produit déja ajouté.');
             messageflash("Produit déja ajouté.", "warning");
             return back();
         }

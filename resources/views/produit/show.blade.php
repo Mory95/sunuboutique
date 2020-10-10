@@ -2,6 +2,7 @@
     @section('content')
     
     @section('extra-style')
+    <link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet">
     <style>
     	.imgs {
     		border: 1px solid #ddd; /* Gray border */
@@ -36,7 +37,7 @@
                     </div>
                     @foreach (json_decode($prod->images, true) as $img)
                     <div class="product-section-thumbnail imgs" style="display: inline-block">
-                        <img src="{{ asset('storage/'.$img) }}" alt="Image produit"  style="height: 100px; width: 100%;" class="newImg">
+                        <img src="{{ asset('storage/'.$img) }}" alt="Image produit" style="height: 100px; width: 100%;" class="newImg">
                     </div>
                     @endforeach
                     @endif
@@ -69,28 +70,51 @@
     </footer>
     @endsection --}}
     @section('extra-js')
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 
     <script>
-    	$('.newImg').on('click',  function() {
-    		$('#currentImg').prop('src', this.src);
-    	});
-    </script>
+     @if(Session::has('message'))
+     var type="{{Session::get('alert-type','info')}}"
 
-    <script>
-    	(function(){
-    		const currentImage = document.querySelector('#currentImg');
-    		const images = document.querySelectorAll('.product-section-thumbnail');
-    		images.forEach((element) => element.addEventListener('click', thumbnailClick));
-    		function thumbnailClick(e) {
-    			currentImage.classList.remove('active');
-    			currentImage.addEventListener('transitionend', () => {
-    				currentImage.src = this.querySelector('img').src;
-    				currentImage.classList.add('active');
-    			})
-    			images.forEach((element) => element.classList.remove('selected'));
-    			this.classList.add('selected');
-    		}
-    	})();
-    </script>
+     switch(type){
+       case 'info':
+       toastr.info("{{ Session::get('message') }}");
+       break;
+       case 'success':
+       toastr.success("{{ Session::get('message') }}");
+       break;
+       case 'warning':
+       toastr.warning("{{ Session::get('message') }}");
+       break;
+       case 'error':
+       toastr.error("{{ Session::get('message') }}");
+       break;
+   }
+   @endif
+</script>
+<script>
+   $('.newImg').on('click',  function() {
+      $('#currentImg').prop('src', this.src);
+  });
+</script>
 
-    @endsection
+<script>
+   (function(){
+      const currentImage = document.querySelector('#currentImg');
+      const images = document.querySelectorAll('.product-section-thumbnail');
+      images.forEach((element) => element.addEventListener('click', thumbnailClick));
+      function thumbnailClick(e) {
+         currentImage.classList.remove('active');
+         currentImage.addEventListener('transitionend', () => {
+            currentImage.src = this.querySelector('img').src;
+            currentImage.classList.add('active');
+        })
+         images.forEach((element) => element.classList.remove('selected'));
+         this.classList.add('selected');
+     }
+ })();
+</script>
+
+@endsection
